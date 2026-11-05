@@ -76,7 +76,6 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:13px}
     <h2 style="margin-top:28px">ការពិនិត្យចម្លើយ <span class="sub">ANSWER REVIEW</span></h2>
     <div id="review"></div>
     <button class="primary no-print" onclick="window.print()">បោះពុម្ពលទ្ធផល / PRINT RESULT</button>
-    <button class="primary secondary no-print" onclick="location.reload()">ចាប់ផ្តើមប្រឡងថ្មី / NEW EXAM</button>
   </section>
 </main>
 <footer>© 2026 ប្រព័ន្ធប្រឡងតាមអនឡាញ | Online Examination System</footer>
@@ -97,19 +96,58 @@ const questions = [
 let currentQuestion=0, answers=[], timeLeft=600, timerInterval=null, candidate={};
 const $=id=>document.getElementById(id);
 function startExam(){
- const name=$("employeeName").value.trim(), department=$("department").value;
- if(!name||!department){alert("សូមបញ្ចូលឈ្មោះបុគ្គលិក និងជ្រើសរើសផ្នែកជាមុន។\nPlease enter the employee name and select a department.");return;}
- candidate={name,id:$("employeeId").value.trim(),gender:$("gender").value,department,position:$("position").value.trim(),subject:$("subject").selectedOptions[0].text,date:$("examDate").value};
- $("registration").classList.add("hidden");$("exam").classList.remove("hidden");
- $("candidateInfo").innerHTML=`<strong>${escapeHTML(candidate.name)}</strong><br><span class="muted">${escapeHTML(candidate.department)}${candidate.id?" | ID: "+escapeHTML(candidate.id):""}</span>`;
- showQuestion();startTimer();
+
+    const name = $("employeeName").value.trim();
+    const department = $("department").value;
+    const employeeId = $("employeeId").value.trim();
+
+    if(!name || !department || !employeeId){
+        alert("សូមបញ្ចូលឈ្មោះ លេខសម្គាល់បុគ្គលិក និងជ្រើសរើសផ្នែកជាមុន។");
+        return;
+    }
+
+    // Check whether this employee has already completed the exam
+    const attemptKey = "exam_completed_" + employeeId;
+
+    if(localStorage.getItem(attemptKey)){
+        alert("បុគ្គលិកនេះបានប្រឡងរួចហើយ។ មិនអាចប្រឡងម្តងទៀតបានទេ។");
+        return;
+    }
+
+    candidate = {
+        name: name,
+        id: employeeId,
+        gender: $("gender").value,
+        department: department,
+        position: $("position").value.trim(),
+        subject: $("subject").selectedOptions[0].text,
+        date: $("examDate").value
+    };
+
+    $("registration").classList.add("hidden");
+    $("exam").classList.remove("hidden");
+
+    $("candidateInfo").innerHTML =
+        `<strong>${escapeHTML(candidate.name)}</strong><br>
+        <span class="muted">${escapeHTML(candidate.department)}
+        | ID: ${escapeHTML(candidate.id)}</span>`;
+
+    showQuestion();
+    startTimer();
 }
 function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
 function showQuestion(){const q=questions[currentQuestion];$("questionNumber").textContent=`សំណួរទី ${currentQuestion+1} នៃ ${questions.length} | QUESTION ${currentQuestion+1} OF ${questions.length}`;$("questionKm").textContent=q.km;$("questionEn").textContent=q.en;$("progressBar").style.width=((currentQuestion+1)/questions.length*100)+"%";const box=$("options");box.innerHTML="";q.opts.forEach((option,i)=>{const label=document.createElement("label");label.className="option";const radio=document.createElement("input");radio.type="radio";radio.name="answer";radio.checked=answers[currentQuestion]===i;radio.addEventListener("change",()=>answers[currentQuestion]=i);const text=document.createElement("span");text.innerHTML=`${String.fromCharCode(65+i)}. ${escapeHTML(option)}<span class="en">${escapeHTML(q.optsEn[i])}</span>`;label.append(radio,text);box.append(label);});$("previousBtn").disabled=currentQuestion===0;$("nextBtn").disabled=currentQuestion===questions.length-1;}
 function nextQuestion(){if(currentQuestion<questions.length-1){currentQuestion++;showQuestion();}}
 function previousQuestion(){if(currentQuestion>0){currentQuestion--;showQuestion();}}
 function startTimer(){timerInterval=setInterval(()=>{timeLeft--;const m=Math.floor(timeLeft/60),s=timeLeft%60;$("timer").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");if(timeLeft<=0)submitExam(true);},1000);}
-function submitExam(auto){if(!$('results').classList.contains('hidden'))return;const unanswered=questions.length-answers.filter(a=>a!==undefined).length;if(!auto&&unanswered>0&&!confirm(`អ្នកមិនទាន់ឆ្លើយ ${unanswered} សំណួរ។ តើអ្នកពិតជាចង់ដាក់បញ្ជូនមែនទេ?\nYou have ${unanswered} unanswered question(s). Submit anyway?`))return;clearInterval(timerInterval);let correct=0,review="";questions.forEach((q,i)=>{const ua=answers[i],ok=ua===q.a;if(ok)correct++;review+=`<div class="review-item"><strong>សំណួរទី ${i+1}: ${escapeHTML(q.km)}</strong><div class="muted">${escapeHTML(q.en)}</div><div>ចម្លើយរបស់អ្នក / Your answer: <span class="${ok?'correct':'wrong'}">${ua===undefined?'មិនបានឆ្លើយ / Not answered':escapeHTML(q.opts[ua])+" / "+escapeHTML(q.optsEn[ua])}</span></div><div>ចម្លើយត្រឹមត្រូវ / Correct answer: <span class="correct">${escapeHTML(q.opts[q.a])} / ${escapeHTML(q.optsEn[q.a])}</span></div></div>`;});const pct=Math.round(correct/questions.length*100),passed=pct>=80;$("exam").classList.add("hidden");$("results").classList.remove("hidden");$("resultName").innerHTML=`បុគ្គលិក / Employee: <strong>${escapeHTML(candidate.name)}</strong><br>ផ្នែក / Department: ${escapeHTML(candidate.department)}${candidate.id?"<br>លេខសម្គាល់ / Employee ID: "+escapeHTML(candidate.id):""}`;$("score").textContent=`${correct} / ${questions.length} (${pct}%)`;
+function submitExam(auto){if(!$('results').classList.contains('hidden'))return;const unanswered=questions.length-answers.filter(a=>a!==undefined).length;if(!auto&&unanswered>0&&!confirm(`អ្នកមិនទាន់ឆ្លើយ ${unanswered} សំណួរ។ តើអ្នកពិតជាចង់ដាក់បញ្ជូនមែនទេ?\nYou have ${unanswered} unanswered question(s). Submit anyway?`))return;clearInterval(timerInterval);
+
+localStorage.setItem(
+    "exam_completed_" + candidate.id,
+    "true"
+);
+
+let correct=0,review="";questions.forEach((q,i)=>{const ua=answers[i],ok=ua===q.a;if(ok)correct++;review+=`<div class="review-item"><strong>សំណួរទី ${i+1}: ${escapeHTML(q.km)}</strong><div class="muted">${escapeHTML(q.en)}</div><div>ចម្លើយរបស់អ្នក / Your answer: <span class="${ok?'correct':'wrong'}">${ua===undefined?'មិនបានឆ្លើយ / Not answered':escapeHTML(q.opts[ua])+" / "+escapeHTML(q.optsEn[ua])}</span></div><div>ចម្លើយត្រឹមត្រូវ / Correct answer: <span class="correct">${escapeHTML(q.opts[q.a])} / ${escapeHTML(q.optsEn[q.a])}</span></div></div>`;});const pct=Math.round(correct/questions.length*100),passed=pct>=80;$("exam").classList.add("hidden");$("results").classList.remove("hidden");$("resultName").innerHTML=`បុគ្គលិក / Employee: <strong>${escapeHTML(candidate.name)}</strong><br>ផ្នែក / Department: ${escapeHTML(candidate.department)}${candidate.id?"<br>លេខសម្គាល់ / Employee ID: "+escapeHTML(candidate.id):""}`;$("score").textContent=`${correct} / ${questions.length} (${pct}%)`;
 $("status").textContent=passed?"ជាប់ / PASS":"មិនជាប់ / FAIL";$("status").style.color=passed?"var(--green)":"var(--red)";$("resultDetails").textContent=`ពិន្ទុជាប់៖ ៨០% | Passing score: 80%${auto?" | ពេលវេលាប្រឡងបានបញ្ចប់ / Time is up":""}`;$("review").innerHTML=review;}
 // Set today's date automatically in the registration form.
 $("examDate").value=new Date().toISOString().slice(0,10);
