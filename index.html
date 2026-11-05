@@ -94,7 +94,7 @@ const questions = [
  {km:"តើអ្នកគួរធ្វើអ្វី នៅពេលមនុស្សម្នាក់ស្ទះផ្លូវដង្ហើម ហើយមិនអាចនិយាយ ឬដកដង្ហើមបាន?",en:"What should you do when someone is choking and cannot speak or breathe?",opts:["ឱ្យគាត់ផឹកទឹក","ប្រាប់គាត់ឱ្យបន្តធ្វើការ","ផ្តល់ជំនួយសង្គ្រោះបឋមសម្រាប់ការស្ទះផ្លូវដង្ហើមឱ្យបានត្រឹមត្រូវ និងហៅជំនួយ","ទុកគាត់ចោល"],optsEn:["Give them water","Encourage them to keep working","Provide appropriate choking first aid and call for help","Leave them alone"],a:2},
  {km:"ហេតុអ្វីបានជាត្រូវត្រួតពិនិត្យប្រអប់សង្គ្រោះបឋមជាប្រចាំ?",en:"Why should a first aid kit be inspected regularly?",opts:["ដើម្បីតុបតែងកន្លែងធ្វើការ","ដើម្បីពិនិត្យសម្ភារៈ និងកាលបរិច្ឆេទផុតកំណត់","ដើម្បីដកសម្ភារៈទាំងអស់ចេញ","ដើម្បីធ្វើឱ្យប្រអប់មានទម្ងន់ធ្ងន់"],optsEn:["To decorate the workplace","To check supplies and expiry dates","To remove all equipment","To make it heavier"],a:1}
 ];
-let currentQuestion=0, answers=[], timeLeft=1800, timerInterval=null, candidate={};
+let currentQuestion=0, answers=[], timeLeft=600, timerInterval=null, candidate={};
 const $=id=>document.getElementById(id);
 function startExam(){
  const name=$("employeeName").value.trim(), department=$("department").value;
