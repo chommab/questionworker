@@ -1,156 +1,36 @@
-<!DOCTYPE html>
-<html lang="km">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ប្រព័ន្ធប្រឡងតាមអនឡាញ | Online Examination System</title>
+<!doctype html><html lang="km"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>First Aid Challenge</title>
 <style>
-:root{--navy:#123b65;--blue:#1673c9;--pale:#eff6ff;--ink:#1e293b;--muted:#64748b;--line:#dbe3ec;--green:#15803d;--red:#dc2626}
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,"Noto Sans Khmer",sans-serif}
-body{background:#f1f5f9;color:var(--ink);line-height:1.65}
-header{background:var(--navy);color:#fff;padding:24px 7%;text-align:center}
-header h1{font-size:clamp(21px,3vw,29px)}header p{color:#dbeafe;margin-top:5px}
-.container{max-width:900px;margin:32px auto;padding:0 16px 30px}
-.card{background:#fff;padding:28px;border-radius:15px;box-shadow:0 5px 22px #0f172a0d}
-h2{color:var(--navy);margin-bottom:18px;font-size:23px}
-.sub{display:block;color:var(--muted);font-size:14px;font-weight:normal;margin-top:-3px;margin-bottom:18px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
-.field{margin-bottom:14px}.field label{display:block;font-weight:700;margin-bottom:6px}
-.field label small{display:block;color:var(--muted);font-weight:400;font-size:13px}
-input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:var(--ink)}
-input:focus,select:focus{outline:2px solid #93c5fd;border-color:var(--blue)}
-button{border:0;border-radius:8px;padding:12px 20px;background:var(--blue);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
-button:hover{background:#0e5599}button:disabled{background:#94a3b8;cursor:not-allowed}
-.primary{width:100%;margin-top:12px}.secondary{background:#64748b}.secondary:hover{background:#475569}
-.hidden{display:none!important}.exam-top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:15px}
-.timer{font-size:19px;font-weight:700;color:var(--red);background:#fef2f2;padding:7px 13px;border-radius:8px}
-.progress{height:9px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:12px 0 22px}.progress-bar{height:100%;width:0;background:var(--blue);transition:width .2s}
-.q-number{color:var(--muted);font-weight:700;margin-bottom:8px}.question{font-size:19px;font-weight:700;margin-bottom:3px}.question-en{font-size:15px;color:var(--muted);margin-bottom:18px}
-.option{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--line);border-radius:9px;margin:10px 0;cursor:pointer}
-.option:hover{background:var(--pale);border-color:var(--blue)}.option input{width:auto;margin-top:6px;flex:0 0 auto}.option span{display:block}.option .en{color:var(--muted);font-size:13px}
-.navigation{display:flex;justify-content:space-between;gap:10px;margin-top:20px}.navigation button{min-width:125px}
-.result{text-align:center}.score{font-size:48px;font-weight:800;color:var(--blue);margin:12px}.status{font-size:25px;font-weight:800;margin:8px}.review-item{border-bottom:1px solid var(--line);padding:15px 0;line-height:1.7}.correct{color:var(--green);font-weight:700}.wrong{color:var(--red);font-weight:700}.muted{color:var(--muted);font-size:13px}
-footer{text-align:center;padding:20px;color:var(--muted);font-size:13px}
-@media(max-width:650px){.grid{grid-template-columns:1fr}.card{padding:20px}.navigation button{min-width:0;flex:1}}
-@media print{body{background:#fff}.no-print,header,footer{display:none!important}.container{margin:0;max-width:none}.card{box-shadow:none;padding:0}}
-</style>
-</head>
-<body>
-<header>
-  <h1>ប្រព័ន្ធប្រឡងតាមអនឡាញ</h1>
-  <p>ONLINE EXAMINATION SYSTEM</p>
-  <p style="margin-top:10px">វេទិកាវាយតម្លៃ និងវាស់ស្ទង់លទ្ធផលនៃការបណ្តុះបណ្តាល</p>
-  <p>TRAINING ASSESSMENT &amp; EVALUATION PLATFORM</p>
-</header>
-<main class="container">
-  <section id="registration" class="card">
-    <h2>ព័ត៌មានបេក្ខជន <span class="sub">CANDIDATE INFORMATION</span></h2>
-    <div class="grid">
-      <div class="field"><label>ឈ្មោះបុគ្គលិក <small>Employee Name</small></label><input id="employeeName" type="text" placeholder="បញ្ចូលឈ្មោះពេញ / Enter full name" required></div>
-      <div class="field"><label>លេខសម្គាល់បុគ្គលិក <small>Employee ID</small></label><input id="employeeId" type="text" placeholder="បញ្ចូលលេខសម្គាល់ / Enter employee ID"></div>
-      <div class="field"><label>ភេទ <small>Gender</small></label><select id="gender"><option value="">ជ្រើសរើសភេទ / Select gender</option><option value="ប្រុស / Male">ប្រុស / Male</option><option value="ស្រី / Female">ស្រី / Female</option><option value="ផ្សេងៗ / Other">ផ្សេងៗ / Other</option></select></div>
-      <div class="field"><label>ផ្នែក <small>Department</small></label><select id="department"><option value="">ជ្រើសរើសផ្នែក / Select department</option><option>Production / ផលិតកម្ម</option><option>Stitching / ផ្នែកដេរ</option><option>Assembly / ខ្សែទឹកហូរ</option><option>Warehouse / ឃ្លាំង</option><option>Cutting / ផ្នែកកាត់</option><option>Office / ការិយាល័យ</option><option>Maintenance / ផ្នែកថែទាំ</option><option>Other / ផ្សេងៗ</option></select></div>
-      <div class="field"><label>មុខតំណែង <small>Position</small></label><input id="position" type="text" placeholder="បញ្ចូលមុខតំណែង / Enter position"></div>
-      <div class="field"><label>ប្រធានបទបណ្តុះបណ្តាល <small>Training Subject</small></label><select id="subject"><option value="firstaid">ការសង្គ្រោះបឋម / First Aid Training</option><option value="fire">សុវត្ថិភាពអគ្គិភ័យ / Fire Safety Training</option><option value="osh">សុវត្ថិភាព និងសុខភាពការងារ / OSH Training</option><option value="chemical">សុវត្ថិភាពសារធាតុគីមី / Chemical Safety Training</option></select></div>
-    </div>
-    <div class="field"><label>កាលបរិច្ឆេទប្រឡង <small>Examination Date</small></label><input id="examDate" type="date"></div>
-    <button class="primary" onclick="startExam()">ចាប់ផ្តើមប្រឡង / START EXAM</button>
-  </section>
-
-  <section id="exam" class="card hidden">
-    <div class="exam-top"><div id="candidateInfo"></div><div class="timer" id="timer">10:00</div></div>
-    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-    <div class="q-number" id="questionNumber"></div>
-    <div class="question" id="questionKm"></div><div class="question-en" id="questionEn"></div>
-    <div id="options"></div>
-    <div class="navigation"><button class="secondary" id="previousBtn" onclick="previousQuestion()">សំណួរមុន / PREVIOUS</button><button id="nextBtn" onclick="nextQuestion()">សំណួរបន្ទាប់ / NEXT</button></div>
-    <button class="primary" onclick="submitExam(false)">ដាក់បញ្ជូនការប្រឡង / SUBMIT EXAM</button>
-  </section>
-
-  <section id="results" class="card hidden">
-    <div class="result">
-      <h2>លទ្ធផលប្រឡង <span class="sub">EXAMINATION RESULT</span></h2>
-      <p id="resultName"></p><div class="score" id="score"></div>
-      <div class="status" id="status"></div><p id="resultDetails"></p>
-    </div>
-    <h2 style="margin-top:28px">ការពិនិត្យចម្លើយ <span class="sub">ANSWER REVIEW</span></h2>
-    <div id="review"></div>
-    <button class="primary no-print" onclick="window.print()">បោះពុម្ពលទ្ធផល / PRINT RESULT</button>
-  </section>
+@import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700;800&family=Nunito:wght@700;900&display=swap');
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 10%,#304879,transparent 35%),linear-gradient(135deg,#091329,#14294a 65%,#073c4a);color:#f7f9ff;font-family:'Kantumruy Pro',sans-serif;min-height:100vh}.wrap{max-width:950px;margin:auto;padding:20px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:22px}.brand{font:900 17px Nunito;letter-spacing:1px}.brand small{display:block;font:600 11px 'Kantumruy Pro';color:#aebddc;letter-spacing:0}.logo{display:inline-grid;place-items:center;background:linear-gradient(135deg,#52e0d0,#75a9ff);color:#10203b;width:42px;height:42px;border-radius:14px;margin-right:9px}.tag{border:1px solid #ffffff25;padding:8px 12px;border-radius:30px;color:#b8c7e3;font-size:12px}.card{background:linear-gradient(145deg,#1b2d53ee,#101e3bee);border:1px solid #ffffff25;border-radius:26px;box-shadow:0 22px 60px #0006;padding:clamp(22px,5vw,48px)}.eyebrow{color:#52e0d0;font:900 12px Nunito;letter-spacing:2px}h1{font-size:clamp(32px,6vw,55px);line-height:1.15;margin:12px 0}h1 span{color:#ffd166}.lead{color:#bdc9e2;line-height:1.8}.chips{display:flex;flex-wrap:wrap;gap:9px;margin:22px 0}.chip{background:#ffffff10;border:1px solid #ffffff20;border-radius:12px;padding:9px 12px;font-size:13px}button{font:inherit;cursor:pointer}.primary{border:0;background:linear-gradient(100deg,#52e0d0,#a0f1d4);color:#10203b;font-weight:800;padding:13px 23px;border-radius:14px;box-shadow:0 8px 24px #52e0d033}.secondary{background:#ffffff12;color:white;border:1px solid #ffffff30;padding:12px 17px;border-radius:13px}.hide{display:none!important}.hud{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;margin-bottom:24px}.muted{color:#b8c7e3;font-size:12px}.bar{height:8px;background:#ffffff18;border-radius:20px;margin-top:8px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#52e0d0,#a0f1d4);transition:.3s}.stat{background:#ffffff0d;border:1px solid #ffffff20;border-radius:13px;padding:8px 14px;text-align:center;min-width:75px}.stat b{display:block;font:900 20px Nunito}.stat small{color:#b8c7e3;font-size:11px}.cat{color:#ffd166;font-weight:700;font-size:13px;margin-bottom:8px}.question{font-size:clamp(21px,3.5vw,30px);line-height:1.5;margin:0 0 16px}.scenario{background:#ffffff0c;border-left:4px solid #52e0d0;padding:13px 16px;border-radius:0 13px 13px 0;color:#dce7ff;line-height:1.7;margin-bottom:18px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:11px}.answer{display:flex;align-items:center;gap:12px;text-align:left;color:white;background:#ffffff0c;border:1px solid #ffffff25;border-radius:15px;padding:14px;min-height:68px;transition:.2s}.answer:hover:not(:disabled){border-color:#52e0d0;transform:translateY(-2px)}.answer:disabled{cursor:default}.letter{display:grid;place-items:center;flex:0 0 32px;height:32px;border-radius:10px;background:#ffffff18;color:#52e0d0;font:900 14px Nunito}.correct{border-color:#43d9a3!important;background:#43d9a322!important}.wrong{border-color:#ff6b8a!important;background:#ff6b8a22!important}.feedback{display:none;margin-top:16px;padding:15px;border-radius:14px;line-height:1.7}.good{display:block;background:#43d9a31c;border:1px solid #43d9a355}.bad{display:block;background:#ff6b8a1c;border:1px solid #ff6b8a55}.actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px}.result{text-align:center}.trophy{font-size:65px}.score{font:900 clamp(55px,10vw,82px) Nunito;color:#ffd166;margin:5px}.stats{display:flex;justify-content:center;gap:12px;margin:20px 0}.box{background:#ffffff0d;border:1px solid #ffffff20;border-radius:14px;padding:13px 20px}.box b{display:block;font:900 24px Nunito}.box small{color:#b8c7e3}.review{text-align:left;max-width:700px;margin:25px auto}.review details{background:#ffffff0d;border:1px solid #ffffff20;border-radius:12px;padding:12px;margin:8px 0}.review summary{cursor:pointer;font-weight:700}.review p{color:#bdc9e2;line-height:1.6}.note{font-size:12px;color:#92a4c7;margin-top:20px}@media(max-width:620px){.wrap{padding:12px}.answers{grid-template-columns:1fr}.hud{grid-template-columns:1fr auto}.hud .stat:last-child{display:none}.tag{font-size:10px}.stats{gap:6px}.box{padding:10px}.top{align-items:flex-start}}
+</style></head><body><main class="wrap">
+<header class="top"><div class="brand"><span class="logo">✚</span>FIRST AID CHALLENGE<small>NEW TARGET FOOTWEAR (CAMBODIA) CO., LTD.</small></div><div class="tag">🎯 TRAINING FINAL GAME</div></header>
+<section id="start" class="card"><div class="eyebrow">LEARN • THINK • SAVE LIVES</div><h1>ត្រៀមខ្លួនក្លាយជា<br><span>First Aid Hero?</span></h1><p class="lead">សាកល្បងចំណេះដឹងសង្គ្រោះបឋម តាមរយៈស្ថានការណ៍នៅផ្ទះ និងកន្លែងធ្វើការ។ ឆ្លើយឱ្យបានត្រឹមត្រូវ ប្រមូលពិន្ទុ និងក្លាយជាវីរបុរសសុវត្ថិភាព!</p><div class="chips"><div class="chip">⚡ 12 សំណួរ</div><div class="chip">⏱️ 30 វិនាទី/សំណួរ</div><div class="chip">🏆 ពិន្ទុ និងចំណាត់ថ្នាក់</div><div class="chip">📱 Mobile friendly</div></div><button class="primary" onclick="startGame()">ចាប់ផ្តើមប្រកួត 🚀</button><div class="note">Created for workplace first-aid awareness • By MAB</div></section>
+<section id="game" class="card hide"><div class="hud"><div><div class="muted">សំណួរ <b id="qnum">1/12</b></div><div class="bar"><div class="fill" id="progress"></div></div></div><div class="stat"><b id="score">0</b><small>ពិន្ទុ</small></div><div class="stat"><b id="timer">15</b><small>វិនាទី</small></div></div><div class="cat" id="category"></div><h2 class="question" id="question"></h2><div class="scenario" id="scenario"></div><div class="answers" id="answers"></div><div class="feedback" id="feedback"></div><div class="actions"><span class="muted" id="hint">ជ្រើសរើសចម្លើយតែមួយ</span><button id="next" class="primary hide" onclick="nextQuestion()">សំណួរបន្ទាប់ →</button></div></section>
+<section id="result" class="card result hide"><div class="trophy" id="trophy">🏆</div><div class="eyebrow">CHALLENGE COMPLETED</div><h1>អ្នកបានបញ្ចប់ការប្រកួត!</h1><div class="score" id="finalScore">0</div><h2 id="rank"></h2><p class="lead" id="message"></p><div class="stats"><div class="box"><b id="correctCount">0</b><small>ត្រឹមត្រូវ</small></div><div class="box"><b id="wrongCount">0</b><small>ខុស</small></div><div class="box"><b>12</b><small>សរុប</small></div></div><button class="primary" onclick="restartGame()">លេងម្ដងទៀត 🔄</button> <button class="secondary" onclick="window.print()">បោះពុម្ពលទ្ធផល</button><div class="review"><h3>📘 រំលឹកចំណេះដឹង</h3><div id="reviewList"></div></div><div class="note">សុវត្ថិភាពចាប់ផ្តើមពីយើងគ្រប់គ្នា។</div></section>
 </main>
-<footer>© 2026 ប្រព័ន្ធប្រឡងតាមអនឡាញ | Online Examination System</footer>
 <script>
-// សំណួរខាងក្រោមផ្អែកលើប្រធានបទ First Aid Training ក្នុងកំណែដើម។
-const questions = [
- {km:"តើអ្នកគួរធ្វើអ្វីមុនគេ នៅពេលមានមនុស្សម្នាក់ត្រូវចរន្តអគ្គិសនីឆក់?",en:"What should you do first when someone receives an electric shock?",opts:["ប៉ះជនរងគ្រោះភ្លាមៗ","កាត់ផ្តាច់ប្រភពអគ្គិសនីដោយសុវត្ថិភាព","ឱ្យជនរងគ្រោះផឹកទឹក","ប្រើកម្លាំងអូសជនរងគ្រោះ"],optsEn:["Touch the victim immediately","Disconnect the electricity source safely","Give the victim water","Move the victim by force"],a:1},
- {km:"តើវិធីដំបូងដែលគួរធ្វើចំពោះការរលាកកម្ដៅកម្រិតស្រាលគឺអ្វី?",en:"What is the recommended first action for a minor thermal burn?",opts:["លាបថ្នាំដុសធ្មេញ","ដាក់ទឹកកកផ្ទាល់លើមុខរបួស","ត្រាំឬបង្ហូរទឹកត្រជាក់លើកន្លែងរលាករយៈពេល ២០ នាទី","លាបប្រេងចម្អិនអាហារ"],optsEn:["Apply toothpaste","Apply ice directly","Cool under cool running water for 20 minutes","Apply cooking oil"],a:2},
- {km:"តើវិធីសម្គាល់ FAST ជួយឱ្យយើងស្គាល់ជំងឺអ្វី?",en:"What does FAST help you recognize?",opts:["ជំងឺគាំងបេះដូង","ជំងឺដាច់សរសៃឈាមខួរក្បាល","ការបាក់ឆ្អឹង","ការរលាក"],optsEn:["Heart attack","Stroke","Broken bones","Burn injuries"],a:1},
- {km:"តើអ្នកគួរធ្វើអ្វី ដើម្បីបញ្ឈប់ការហូរឈាមខាងក្រៅធ្ងន់ធ្ងរ?",en:"What should you do to control serious external bleeding?",opts:["សង្កត់ផ្ទាល់លើមុខរបួសដោយប្រើសម្ភារៈស្អាត","លាងមុខរបួសជាបន្តបន្ទាប់ ៣០ នាទី","ឱ្យអ្នករងរបួសញ៉ាំអាហារ","មិនចាំបាច់ធ្វើអ្វីទេ"],optsEn:["Apply direct pressure with a clean dressing","Wash continuously for 10 minutes","Give the person food","Ignore the injury"],a:0},
- {km:"តើសម្ភារៈមួយណាខាងក្រោមមានសារៈសំខាន់ក្នុងប្រអប់សង្គ្រោះបឋម?",en:"Which item is important in a first aid kit?",opts:["កុំព្យូទ័រ","សំឡីរុំរបួសក្រៀវ","ឆ្នាំងសាកទូរស័ព្ទ","ឯកសារការិយាល័យ"],optsEn:["Computer","Sterile gauze","Mobile phone charger","Office documents"],a:1},
- {km:"តើអ្នកគួរធ្វើអ្វី នៅពេលមនុស្សម្នាក់កំពុងប្រកាច់?",en:"What should you do if a person is having a seizure?",opts:["ដាក់វត្ថុអ្វីមួយចូលក្នុងមាត់","ចាប់ឃាត់រាងកាយគាត់ឱ្យជាប់","ការពារគាត់ពីវត្ថុគ្រោះថ្នាក់នៅជុំវិញ","បង្ខំឱ្យគាត់ផឹកទឹក"],optsEn:["Put something in their mouth","Hold them down tightly","Protect them from nearby hazards","Force them to drink water"],a:2},
- {km:"តើអ្នកគួរធ្វើអ្វី ប្រសិនបើមនុស្សម្នាក់សន្លប់ និងមិនដកដង្ហើមធម្មតា?",en:"What should you do if a person is unconscious and not breathing normally?",opts:["រង់ចាំឱ្យគាត់ដឹងខ្លួនវិញ","ហៅសេវាសង្គ្រោះបន្ទាន់ និងចាប់ផ្តើម CPR ប្រសិនបើអ្នកបានទទួលការបណ្តុះបណ្តាល","ឱ្យគាត់ញ៉ាំអាហារ","ទុកគាត់ចោល"],optsEn:["Wait for them to wake up","Call emergency services and start CPR if trained","Give them food","Leave them alone"],a:1},
- {km:"តើអក្សរ A ក្នុងវិធី FAST តំណាងឱ្យអ្វី?",en:"What does the letter A represent in FAST?",opts:["ខ្យល់ / Air","ដៃខ្សោយ / Arm weakness","គ្រោះថ្នាក់ / Accident","ការដាស់តឿន / Alert"],optsEn:["Air","Arm weakness","Accident","Alert"],a:1},
- {km:"តើអ្នកគួរធ្វើអ្វី នៅពេលមនុស្សម្នាក់ស្ទះផ្លូវដង្ហើម ហើយមិនអាចនិយាយ ឬដកដង្ហើមបាន?",en:"What should you do when someone is choking and cannot speak or breathe?",opts:["ឱ្យគាត់ផឹកទឹក","ប្រាប់គាត់ឱ្យបន្តធ្វើការ","ផ្តល់ជំនួយសង្គ្រោះបឋមសម្រាប់ការស្ទះផ្លូវដង្ហើមឱ្យបានត្រឹមត្រូវ និងហៅជំនួយ","ទុកគាត់ចោល"],optsEn:["Give them water","Encourage them to keep working","Provide appropriate choking first aid and call for help","Leave them alone"],a:2},
- {km:"ហេតុអ្វីបានជាត្រូវត្រួតពិនិត្យប្រអប់សង្គ្រោះបឋមជាប្រចាំ?",en:"Why should a first aid kit be inspected regularly?",opts:["ដើម្បីតុបតែងកន្លែងធ្វើការ","ដើម្បីពិនិត្យសម្ភារៈ និងកាលបរិច្ឆេទផុតកំណត់","ដើម្បីដកសម្ភារៈទាំងអស់ចេញ","ដើម្បីធ្វើឱ្យប្រអប់មានទម្ងន់ធ្ងន់"],optsEn:["To decorate the workplace","To check supplies and expiry dates","To remove all equipment","To make it heavier"],a:1}
+const Q=[
+["🔥 របួសរលាក • BURN","មិត្តរួមការងាររលាកដៃដោយទឹកក្តៅ។ តើគួរធ្វើអ្វីមុនគេ?","របួសទើបកើតឡើង ស្បែកក្រហម និងឈឺ។",["លាបថ្នាំដុសធ្មេញ","ដាក់ទឹកកកផ្ទាល់","ដាក់ទឹកហូរត្រជាក់ល្មមប្រហែល 20 នាទី","បិទដោយក្រណាត់កខ្វក់"],2,"ប្រើទឹកហូរត្រជាក់ល្មមដើម្បីបន្ថយកម្ដៅ។ កុំប្រើទឹកកក ឬថ្នាំដុសធ្មេញ។ ដោះគ្រឿងអលង្ការដែលមិនជាប់នឹងរបួស និងស្វែងរកជំនួយវេជ្ជសាស្ត្រតាមភាពធ្ងន់ធ្ងរ។"],
+["🩸 ការហូរឈាម • BLEEDING","កម្មករម្នាក់មានរបួសដៃ និងឈាមហូរច្រើន។ តើសកម្មភាពដំបូងគឺអ្វី?","អ្នកមានស្រោមដៃ និងក្រណាត់ស្អាតនៅក្បែរ។",["សង្កត់ផ្ទាល់លើមុខរបួសដោយក្រណាត់ស្អាត","លាងរបួសយូរមុន","ឱ្យគាត់រត់ទៅបន្ទប់ពេទ្យ","ទុកឱ្យឈាមហូរ"],0,"ពាក់ស្រោមដៃបើមាន ហើយសង្កត់ផ្ទាល់លើមុខរបួសដោយក្រណាត់ស្អាត។ បើឈាមហូរខ្លាំង ឬមិនឈប់ ត្រូវហៅសង្គ្រោះបន្ទាន់។"],
+["⚡ ឆក់អគ្គិសនី • ELECTRIC SHOCK","អ្នកឃើញមនុស្សម្នាក់កំពុងជាប់ខ្សែភ្លើង។ តើអ្នកគួរធ្វើអ្វីមុនគេ?","ខ្សែភ្លើងអាចនៅមានចរន្ត។",["ចាប់ដៃគាត់ទាញចេញ","ចាក់ទឹកលើខ្សែភ្លើង","ផ្តាច់ប្រភពអគ្គិសនីដោយសុវត្ថិភាព កុំប៉ះជនរងគ្រោះមុន","ប្រើដែកទាញគាត់"],2,"ផ្តាច់ចរន្តពីប្រភពដោយសុវត្ថិភាព។ កុំប៉ះជនរងគ្រោះ ឬប្រើវត្ថុដែក ខណៈចរន្តនៅមាន។ ហៅសង្គ្រោះបន្ទាន់។"],
+["❤️ គាំងបេះដូង • HEART ATTACK","មិត្តរួមការងារឈឺទ្រូងខ្លាំង ដូចមានអ្វីសង្កត់ និងបែកញើស។ តើគួរធ្វើអ្វី?","រោគសញ្ញាកើតឡើងភ្លាមៗនៅកន្លែងធ្វើការ។",["ឱ្យគាត់បន្តធ្វើការ","ហៅសង្គ្រោះបន្ទាន់ និងឱ្យសម្រាកនៅកន្លែងសុវត្ថិភាព","ឱ្យផឹកកាហ្វេ","ម៉ាស្សាទ្រូងខ្លាំងៗ"],1,"ឈឺទ្រូងអាចជាសញ្ញាគាំងបេះដូង។ ហៅសង្គ្រោះបន្ទាន់ កុំឱ្យអ្នកជំងឺប្រឹងប្រែង និងតាមដានស្មារតី/ដង្ហើម។"],
+["🧠 ដាច់សរសៃឈាមខួរក្បាល • STROKE","មុខវៀច ដៃម្ខាងខ្សោយ និងនិយាយមិនច្បាស់។ នេះអាចជាសញ្ញាអ្វី?","រោគសញ្ញាកើតឡើងភ្លាមៗ។",["ជំងឺផ្តាសាយ","ជំងឺដាច់សរសៃឈាមខួរក្បាល","ឈឺសាច់ដុំ","អស់កម្លាំងធម្មតា"],1,"ចងចាំ FAST៖ Face មុខវៀច, Arms ដៃខ្សោយ, Speech និយាយមិនច្បាស់, Time ហៅសង្គ្រោះបន្ទាន់ភ្លាមៗ។ កត់ត្រាពេលចាប់ផ្តើមរោគសញ្ញា។"],
+["😮‍💨 ស្ទះផ្លូវដង្ហើម • CHOKING","មនុស្សពេញវ័យស្ទះអាហារ មិនអាចនិយាយ ឬក្អកបាន។ តើត្រូវធ្វើដូចម្តេច?","គាត់កាន់បំពង់ក និងពិបាកដកដង្ហើម។",["ឱ្យផឹកទឹក","ទុកឱ្យនៅម្នាក់ឯង","ហៅជំនួយ និងផ្តល់ជំនួយស្ទះផ្លូវដង្ហើមតាមការបណ្តុះបណ្តាល","ឆ្កឹះមាត់ដោយមិនមើល"],2,"នេះអាចជាការស្ទះផ្លូវដង្ហើមធ្ងន់ធ្ងរ។ ហៅជំនួយ និងអនុវត្តបច្ចេកទេសដែលបានបណ្តុះបណ្តាល។ កុំឆ្កឹះមាត់ដោយមិនឃើញវត្ថុ។"],
+["🪜 ធ្លាក់ពីទីខ្ពស់ • FALL","កម្មករធ្លាក់ពីជណ្ដើរ ហើយឈឺក្បាល/ក។ តើអ្នកគួរធ្វើអ្វី?","អាចមានរបួសក្បាល ឬឆ្អឹងខ្នង។",["លើកឱ្យឈរភ្លាមៗ","កុំផ្លាស់ទី លើកលែងមានគ្រោះថ្នាក់បន្ទាន់ ហើយហៅជំនួយ","ឱ្យដើរសាកល្បង","ច្របាច់ក និងខ្នង"],1,"សង្ស័យរបួសក្បាល/ក/ឆ្អឹងខ្នង ត្រូវកាត់បន្ថយចលនា។ កុំផ្លាស់ទីដោយមិនចាំបាច់ និងហៅសង្គ្រោះបន្ទាន់។"],
+["🌊 លង់ទឹក • DROWNING","អ្នកឃើញមនុស្សលង់ទឹក។ តើជួយដោយសុវត្ថិភាពយ៉ាងដូចម្តេច?","អ្នកមិនមែនជាអ្នកសង្គ្រោះក្នុងទឹកដែលបានបណ្តុះបណ្តាលទេ។",["លោតចូលទឹកភ្លាមៗ","ប្រើដំបង ខ្សែពួរ ឬឧបករណ៍អណ្តែតពីកន្លែងសុវត្ថិភាព និងហៅជំនួយ","រង់ចាំមើល","ទាញដោយចាប់ក្បាល"],1,"កុំធ្វើឱ្យខ្លួនឯងក្លាយជាជនរងគ្រោះទីពីរ។ ប្រើ Reach/Throw ពីកន្លែងសុវត្ថិភាព និងហៅសង្គ្រោះបន្ទាន់។"],
+["🧰 ប្រអប់សង្គ្រោះបឋម • FIRST AID KIT","ហេតុអ្វីត្រូវត្រួតពិនិត្យប្រអប់សង្គ្រោះបឋមជាប្រចាំ?","អ្នកទទួលខុសត្រូវពិនិត្យប្រអប់សង្គ្រោះបឋមក្នុងរោងចក្រ។",["ឱ្យប្រអប់មើលស្អាតប៉ុណ្ណោះ","ពិនិត្យសម្ភារៈខ្វះ និងកាលបរិច្ឆេទផុតកំណត់","រក្សាទុកថ្នាំចាស់ៗ","មិនចាំបាច់ពិនិត្យ"],1,"ពិនិត្យសម្ភារៈ កាលបរិច្ឆេទផុតកំណត់ និងស្ថានភាពឧបករណ៍ជាប្រចាំ។ បំពេញឡើងវិញក្រោយប្រើ។ ស្លាយបណ្តុះបណ្តាលណែនាំឱ្យពិនិត្យរៀងរាល់ 3 ខែ។"],
+["🫁 CPR • សង្គ្រោះបេះដូង","ក្រោយឆក់អគ្គិសនី ជនរងគ្រោះមិនឆ្លើយតប និងមិនដកដង្ហើមធម្មតា បន្ទាប់ពីផ្តាច់ចរន្ត។ តើត្រូវធ្វើអ្វី?","តំបន់មានសុវត្ថិភាពហើយ។",["ឱ្យផឹកទឹក","ហៅសង្គ្រោះបន្ទាន់ ស្នើសុំ AED និងចាប់ផ្តើម CPR តាមការបណ្តុះបណ្តាល","ទុកឱ្យដេកម្នាក់ឯង","ចាក់ទឹកលើខ្លួន"],1,"បន្ទាប់ពីធានាសុវត្ថិភាព និងផ្តាច់ចរន្តរួច ពិនិត្យការឆ្លើយតប/ដង្ហើម។ ហៅសង្គ្រោះបន្ទាន់ ស្នើសុំ AED និងចាប់ផ្តើម CPR តាមការបណ្តុះបណ្តាល។"],
+["🧠 សុខភាពផ្លូវចិត្ត • WELLBEING","មិត្តរួមការងារថប់បារម្ភខ្លាំង តែដកដង្ហើមធម្មតា និងគ្មានសញ្ញាអាសន្នផ្សេង។ តើគួរធ្វើអ្វី?","គាត់កំពុងភ័យ និងត្រូវការការគាំទ្រ។",["ស្រែកដាក់ឱ្យឈប់ភ័យ","ស្តាប់ដោយស្ងប់ស្ងាត់ នាំទៅកន្លែងសុវត្ថិភាព និងស្វែងរកអ្នកជំនាញបើចាំបាច់","បង្ខំឱ្យបន្តធ្វើការ","សើចចំអក"],1,"ស្តាប់ដោយមិនវិនិច្ឆ័យ និងផ្តល់ការគាំទ្រ។ បើពិបាកដកដង្ហើមខ្លាំង ឈឺទ្រូង ឬសន្លប់ ត្រូវហៅជំនួយវេជ្ជសាស្ត្រ មិនត្រូវសន្មតថាជាការថប់បារម្ភទេ។"],
+["📞 ការឆ្លើយតបបន្ទាន់ • EMERGENCY","ពេលហៅសង្គ្រោះបន្ទាន់ តើព័ត៌មានណាខ្លះគួរប្រាប់?","អ្នករាយការណ៍គ្រោះថ្នាក់នៅរោងចក្រ។",["ប្រាប់តែឈ្មោះខ្លួន","ទីតាំង ប្រភេទគ្រោះថ្នាក់ ចំនួនជនរងគ្រោះ ស្ថានភាព និងលេខទំនាក់ទំនង","និយាយលឿនៗហើយបិទ","មិនចាំបាច់ប្រាប់ទីតាំង"],1,"ប្រាប់ទីតាំង/ច្រកចូល ប្រភេទហេតុការណ៍ ចំនួនអ្នករងគ្រោះ ស្ថានភាពដង្ហើម/ស្មារតី និងលេខទូរស័ព្ទត្រឡប់។ អនុវត្តតាមការណែនាំរបស់អ្នកទទួលទូរស័ព្ទ។"]
 ];
-let currentQuestion=0, answers=[], timeLeft=600, timerInterval=null, candidate={};
-const $=id=>document.getElementById(id);
-function startExam(){
-
-    const name = $("employeeName").value.trim();
-    const department = $("department").value;
-    const employeeId = $("employeeId").value.trim();
-
-    if(!name || !department || !employeeId){
-        alert("សូមបញ្ចូលឈ្មោះ លេខសម្គាល់បុគ្គលិក និងជ្រើសរើសផ្នែកជាមុន។");
-        return;
-    }
-
-    // Check whether this employee has already completed the exam
-    const attemptKey = "exam_completed_" + employeeId;
-
-    if(localStorage.getItem(attemptKey)){
-        alert("បុគ្គលិកនេះបានប្រឡងរួចហើយ។ មិនអាចប្រឡងម្តងទៀតបានទេ។");
-        return;
-    }
-
-    candidate = {
-        name: name,
-        id: employeeId,
-        gender: $("gender").value,
-        department: department,
-        position: $("position").value.trim(),
-        subject: $("subject").selectedOptions[0].text,
-        date: $("examDate").value
-    };
-
-    $("registration").classList.add("hidden");
-    $("exam").classList.remove("hidden");
-
-    $("candidateInfo").innerHTML =
-        `<strong>${escapeHTML(candidate.name)}</strong><br>
-        <span class="muted">${escapeHTML(candidate.department)}
-        | ID: ${escapeHTML(candidate.id)}</span>`;
-
-    showQuestion();
-    startTimer();
-}
-function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
-function showQuestion(){const q=questions[currentQuestion];$("questionNumber").textContent=`សំណួរទី ${currentQuestion+1} នៃ ${questions.length} | QUESTION ${currentQuestion+1} OF ${questions.length}`;$("questionKm").textContent=q.km;$("questionEn").textContent=q.en;$("progressBar").style.width=((currentQuestion+1)/questions.length*100)+"%";const box=$("options");box.innerHTML="";q.opts.forEach((option,i)=>{const label=document.createElement("label");label.className="option";const radio=document.createElement("input");radio.type="radio";radio.name="answer";radio.checked=answers[currentQuestion]===i;radio.addEventListener("change",()=>answers[currentQuestion]=i);const text=document.createElement("span");text.innerHTML=`${String.fromCharCode(65+i)}. ${escapeHTML(option)}<span class="en">${escapeHTML(q.optsEn[i])}</span>`;label.append(radio,text);box.append(label);});$("previousBtn").disabled=currentQuestion===0;$("nextBtn").disabled=currentQuestion===questions.length-1;}
-function nextQuestion(){if(currentQuestion<questions.length-1){currentQuestion++;showQuestion();}}
-function previousQuestion(){if(currentQuestion>0){currentQuestion--;showQuestion();}}
-function startTimer(){timerInterval=setInterval(()=>{timeLeft--;const m=Math.floor(timeLeft/60),s=timeLeft%60;$("timer").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");if(timeLeft<=0)submitExam(true);},1000);}
-function submitExam(auto){if(!$('results').classList.contains('hidden'))return;const unanswered=questions.length-answers.filter(a=>a!==undefined).length;if(!auto&&unanswered>0&&!confirm(`អ្នកមិនទាន់ឆ្លើយ ${unanswered} សំណួរ។ តើអ្នកពិតជាចង់ដាក់បញ្ជូនមែនទេ?\nYou have ${unanswered} unanswered question(s). Submit anyway?`))return;clearInterval(timerInterval);
-
-localStorage.setItem(
-    "exam_completed_" + candidate.id,
-    "true"
-);
-
-let correct=0,review="";questions.forEach((q,i)=>{const ua=answers[i],ok=ua===q.a;if(ok)correct++;review+=`<div class="review-item"><strong>សំណួរទី ${i+1}: ${escapeHTML(q.km)}</strong><div class="muted">${escapeHTML(q.en)}</div><div>ចម្លើយរបស់អ្នក / Your answer: <span class="${ok?'correct':'wrong'}">${ua===undefined?'មិនបានឆ្លើយ / Not answered':escapeHTML(q.opts[ua])+" / "+escapeHTML(q.optsEn[ua])}</span></div><div>ចម្លើយត្រឹមត្រូវ / Correct answer: <span class="correct">${escapeHTML(q.opts[q.a])} / ${escapeHTML(q.optsEn[q.a])}</span></div></div>`;});const pct=Math.round(correct/questions.length*100),passed=pct>=80;$("exam").classList.add("hidden");$("results").classList.remove("hidden");$("resultName").innerHTML=`បុគ្គលិក / Employee: <strong>${escapeHTML(candidate.name)}</strong><br>ផ្នែក / Department: ${escapeHTML(candidate.department)}${candidate.id?"<br>លេខសម្គាល់ / Employee ID: "+escapeHTML(candidate.id):""}`;$("score").textContent=`${correct} / ${questions.length} (${pct}%)`;
-$("status").textContent=passed?"ជាប់ / PASS":"មិនជាប់ / FAIL";$("status").style.color=passed?"var(--green)":"var(--red)";$("resultDetails").textContent=`ពិន្ទុជាប់៖ ៨០% | Passing score: 80%${auto?" | ពេលវេលាប្រឡងបានបញ្ចប់ / Time is up":""}`;$("review").innerHTML=review;}
-// Set today's date automatically in the registration form.
-$("examDate").value=new Date().toISOString().slice(0,10);
-</script>
-</body>
-</html>
+let list=[],i=0,score=0,good=0,bad=0,left=30,tick=null,locked=false,history=[];
+function shuffle(a){a=[...a];for(let n=a.length-1;n>0;n--){let j=Math.floor(Math.random()*(n+1));[a[n],a[j]]=[a[j],a[n]]}return a}
+function startGame(){list=shuffle(Q);i=0;score=good=bad=0;history=[];document.getElementById('start').classList.add('hide');document.getElementById('result').classList.add('hide');document.getElementById('game').classList.remove('hide');showQ()}
+function showQ(){clearInterval(tick);locked=false;left=30;let q=list[i];document.getElementById('qnum').textContent=(i+1)+' / 12';document.getElementById('progress').style.width=(i/12*100)+'%';document.getElementById('score').textContent=score;document.getElementById('timer').textContent=left;document.getElementById('category').textContent=q[0];document.getElementById('question').textContent=q[1];document.getElementById('scenario').textContent='📍 '+q[2];document.getElementById('feedback').className='feedback';document.getElementById('next').classList.add('hide');document.getElementById('hint').textContent='ជ្រើសរើសចម្លើយតែមួយ';let opts=q[3].map((v,n)=>({v,ok:n===q[4]}));opts=shuffle(opts);let box=document.getElementById('answers');box.innerHTML='';opts.forEach((o,n)=>{let b=document.createElement('button');b.className='answer';let l=document.createElement('span');l.className='letter';l.textContent='ABCD'[n];let t=document.createElement('span');t.textContent=o.v;b.append(l,t);b.onclick=()=>answer(b,o.ok,q);box.appendChild(b)});tick=setInterval(()=>{left--;document.getElementById('timer').textContent=left;if(left<=0)answer(null,false,q,true)},1000)}
+function answer(btn,ok,q,timeout=false){if(locked)return;locked=true;clearInterval(tick);document.querySelectorAll('.answer').forEach(b=>{b.disabled=true;if(b.lastChild.textContent===q[3][q[4]])b.classList.add('correct')});if(btn&&!ok)btn.classList.add('wrong');if(ok){good++;score+=Math.max(5,left*2)}else bad++;history.push({q,ok});document.getElementById('score').textContent=score;let f=document.getElementById('feedback');f.className='feedback '+(ok?'good':'bad');f.textContent=(ok?'✅ ត្រឹមត្រូវ! +'+Math.max(5,left*2)+' ពិន្ទុ។ ':'❌ '+(timeout?'អស់ពេល! ':'មិនទាន់ត្រឹមត្រូវទេ។ '))+q[5];document.getElementById('hint').textContent='សូមអានការពន្យល់ ដើម្បីចងចាំ';let n=document.getElementById('next');n.classList.remove('hide');n.textContent=i===11?'មើលលទ្ធផល 🏆':'សំណួរបន្ទាប់ →'}
+function nextQuestion(){i++;if(i<12)showQ();else finish()}
+function finish(){document.getElementById('game').classList.add('hide');document.getElementById('result').classList.remove('hide');document.getElementById('finalScore').textContent=score;document.getElementById('correctCount').textContent=good;document.getElementById('wrongCount').textContent=bad;let p=good/12,title,msg,emoji;if(p>=.9){title='First Aid Champion!';msg='អស្ចារ្យណាស់! អ្នកបានបង្ហាញចំណេះដឹងល្អក្នុងការឆ្លើយតបគ្រោះអាសន្ន។';emoji='🏆'}else if(p>=.7){title='Safety Hero!';msg='លទ្ធផលល្អ! បន្តហ្វឹកហាត់ដើម្បីឆ្លើយតបបានកាន់តែមានទំនុកចិត្ត។';emoji='🥇'}else if(p>=.5){title='Safety Learner';msg='អ្នកកំពុងរីកចម្រើន។ សូមអានការពន្យល់ និងហ្វឹកហាត់បន្ថែម។';emoji='💪'}else{title='Keep Learning!';msg='កុំបោះបង់! ការរៀន និងហ្វឹកហាត់ជួយឱ្យយើងត្រៀមខ្លួនបានល្អជាងមុន។';emoji='🌱'}document.getElementById('rank').textContent=title;document.getElementById('message').textContent=msg;document.getElementById('trophy').textContent=emoji;let r=document.getElementById('reviewList');r.innerHTML='';history.forEach((x,n)=>{let d=document.createElement('details'),s=document.createElement('summary'),p=document.createElement('p');s.textContent=(x.ok?'✅ ':'❌ ')+(n+1)+'. '+x.q[1];p.textContent=x.q[5];d.append(s,p);r.append(d)});if(p>=.7)party()}
+function party(){for(let n=0;n<55;n++){let e=document.createElement('i');e.style.cssText=`position:fixed;top:-15px;left:${Math.random()*100}vw;width:8px;height:14px;background:${['#52e0d0','#ffd166','#ff6b8a','#8aa8ff'][n%4]};z-index:9;animation:fall 2.8s ${Math.random()}s linear forwards`;document.body.append(e);setTimeout(()=>e.remove(),4000)}}
+function restartGame(){document.getElementById('result').classList.add('hide');document.getElementById('start').classList.remove('hide')}
+</script><style>@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}@media print{body{background:white;color:#111}.top,#start,#game button,.result button{display:none!important}.card{box-shadow:none;background:white;color:#111}.lead,.review p{color:#333}}</style>
+</body></html>
